@@ -7,7 +7,7 @@ import "./SafeMath.sol";
 /// @author Alex Stanoev
 /// @notice You can use this contract for buying and selling items
 /// @dev store product in mapping of Product
-contract CryptoMarketpace is Ownable {
+contract CryptoMarketplace is Ownable {
     using SafeMath for uint;
     
     struct Product {
