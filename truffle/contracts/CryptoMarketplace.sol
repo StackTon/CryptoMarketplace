@@ -13,6 +13,7 @@ contract CryptoMarketplace is Ownable {
     event NewProduct(bytes32 indexed ID, string name, uint price, uint quantity, address owner);
     event BuyProduct(bytes32 indexed ID, uint quantity, uint value, address buyer);
     event UpdateProduct(bytes32 indexed ID, uint NewProduct, address owner);
+    event WithdrawalMoney(address indexed owner, uint amount);
     
     struct Product {
         string name;
@@ -108,7 +109,6 @@ contract CryptoMarketplace is Ownable {
         // push then newID in the productIDs array
         productIDs.push(newID);
         
-        
         // execute event NewProduct
         NewProduct(newID, name, price, quantity, owner);
         
@@ -146,8 +146,18 @@ contract CryptoMarketplace is Ownable {
     
     /// @author Alex Stanoev
     /// @notice withdrawal all contract money to owner
-    /// @dev -
     function withdrawalMoney() public onlyOwner {
-        owner.transfer(this.balance);
+        
+        // declarete balance variable that will hold contract balance
+        uint balance = this.balance;
+        
+        // check if balance is more then zero
+        require(balance > 0);
+        
+        // transfer all contract balance to the owner of the contract
+        owner.transfer(balance);
+        
+        // execute event WithdrawalMoney
+        WithdrawalMoney(msg.sender, balance);
     }
 }
