@@ -1,4 +1,4 @@
-var CryptoMarketplace = artifacts.require("CryptoMarketplace");
+const CryptoMarketplace = artifacts.require("CryptoMarketplace");
 const keccak256 = require('js-sha3').keccak256;
 const expect = require('chai').expect;
 

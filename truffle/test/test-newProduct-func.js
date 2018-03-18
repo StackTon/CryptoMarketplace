@@ -1,4 +1,4 @@
-var CryptoMarketplace = artifacts.require("CryptoMarketplace");
+const CryptoMarketplace = artifacts.require("CryptoMarketplace");
 const keccak256 = require('js-sha3').keccak256;
 const expect = require('chai').expect;
 
@@ -13,7 +13,7 @@ contract('FundRaise', function ([owner, acc1, acc2, acc3, acc4, acc5, acc6, acc7
         describe("test with one product", async () => {
             it("check if return correct ID", async () => {
                 let productID = await cryptoMarketplace.newProduct("Domati", 2, 1);
-                let ID = keccak256("Domati" + 2 + 1);
+                let ID = keccak256("Domati" + ":" + 2 + ":" + 1);
                 expect(productID).to.be.equal(ID, "Product ID is not correct");
             });
 
@@ -25,7 +25,7 @@ contract('FundRaise', function ([owner, acc1, acc2, acc3, acc4, acc5, acc6, acc7
 
             it("check if product id is add in productIDs", async () => {
                 let productID = await cryptoMarketplace.newProduct("Domati", 2, 1);
-                let ID = keccak256("Domati" + 2 + 1);
+                let ID = keccak256("Domati" + ":" + 2 + ":" + 1);
                 let productsIDs = await cryptoMarketplace.getProducts.call();
                 expect(productsIDs[0]).to.be.equal(ID, "ProductID is not saved correctly in productIDs");
             });
@@ -66,7 +66,7 @@ contract('FundRaise', function ([owner, acc1, acc2, acc3, acc4, acc5, acc6, acc7
             it("add two products and check if second product id is good", async () => {
                 let productID1 = await cryptoMarketplace.newProduct("Domati", 2, 1);
                 let productID2 = await cryptoMarketplace.newProduct("Krastavici", 1, 5);
-                let ID2 = keccak256("Krastavici" + 1 + 5);
+                let ID2 = keccak256("Krastavici" + ":" + 1 + ":" + 5);
                 expect(productID2).to.be.equal(ID2, "Hash of product id 2 is not correct");
             });
 
@@ -146,11 +146,11 @@ contract('FundRaise', function ([owner, acc1, acc2, acc3, acc4, acc5, acc6, acc7
                 let productID4 = await cryptoMarketplace.newProduct("Piper", 1, 20);
                 let productID5 = await cryptoMarketplace.newProduct("Chushka", 20, 1);
 
-                let ID1 = keccak256("Domati" + 2 + 1);
-                let ID2 = keccak256("Krastavici" + 1 + 5);
-                let ID3 = keccak256("Purjoli" + 20 + 50);
-                let ID4 = keccak256("Piper" + 1 + 20);
-                let ID5 = keccak256("Chushka" + 20 + 1);
+                let ID1 = keccak256("Domati" + ":" + 2 + ":" + 1);
+                let ID2 = keccak256("Krastavici" + ":" + 1 + ":" + 5);
+                let ID3 = keccak256("Purjoli" + ":" + 20 + ":" + 50);
+                let ID4 = keccak256("Piper" + ":" + 1 + ":" + 20);
+                let ID5 = keccak256("Chushka" + ":" + 20 + ":" + 1);
 
                 let productsIDs = await cryptoMarketplace.getProducts.call();
 
@@ -254,8 +254,10 @@ contract('FundRaise', function ([owner, acc1, acc2, acc3, acc4, acc5, acc6, acc7
             it("check with zero params", async () => {
                 expect(await cryptoMarketplace.newProduct()).to.throw();
             });
-        })
 
-        // TODO try to add product form not owner acc
-    })
-})
+            it("try to add product form not owner acc", async () => {
+                expect(await cryptoMarketplace.newProduct("Domata", 2, 2, {from: acc4})).to.throw();
+            });
+        });
+    });
+});
