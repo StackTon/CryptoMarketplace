@@ -1,12 +1,20 @@
 [
 	{
-		"constant": false,
-		"inputs": [],
-		"name": "withdrawalMoney",
-		"outputs": [],
-		"payable": false,
-		"stateMutability": "nonpayable",
-		"type": "function"
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"name": "previousOwner",
+				"type": "address"
+			},
+			{
+				"indexed": true,
+				"name": "newOwner",
+				"type": "address"
+			}
+		],
+		"name": "OwnershipTransferred",
+		"type": "event"
 	},
 	{
 		"constant": false,
@@ -27,100 +35,102 @@
 		"type": "function"
 	},
 	{
-		"constant": true,
+		"anonymous": false,
 		"inputs": [
 			{
-				"name": "ID",
-				"type": "bytes32"
-			}
-		],
-		"name": "getProduct",
-		"outputs": [
-			{
-				"name": "",
-				"type": "string"
+				"indexed": true,
+				"name": "owner",
+				"type": "address"
 			},
 			{
-				"name": "",
-				"type": "uint256"
-			},
-			{
-				"name": "",
+				"indexed": false,
+				"name": "amount",
 				"type": "uint256"
 			}
 		],
-		"payable": false,
-		"stateMutability": "view",
-		"type": "function"
+		"name": "WithdrawalMoney",
+		"type": "event"
 	},
 	{
-		"constant": true,
-		"inputs": [],
-		"name": "owner",
-		"outputs": [
+		"anonymous": false,
+		"inputs": [
 			{
-				"name": "",
+				"indexed": true,
+				"name": "ID",
+				"type": "bytes32"
+			},
+			{
+				"indexed": false,
+				"name": "NewProduct",
+				"type": "uint256"
+			},
+			{
+				"indexed": false,
+				"name": "owner",
 				"type": "address"
 			}
 		],
-		"payable": false,
-		"stateMutability": "view",
-		"type": "function"
+		"name": "UpdateProduct",
+		"type": "event"
 	},
 	{
-		"constant": false,
+		"anonymous": false,
 		"inputs": [
 			{
+				"indexed": true,
 				"name": "ID",
 				"type": "bytes32"
 			},
 			{
-				"name": "newQuantity",
-				"type": "uint256"
-			}
-		],
-		"name": "update",
-		"outputs": [],
-		"payable": false,
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"constant": true,
-		"inputs": [],
-		"name": "getProducts",
-		"outputs": [
-			{
-				"name": "",
-				"type": "bytes32[]"
-			}
-		],
-		"payable": false,
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"constant": true,
-		"inputs": [
-			{
-				"name": "ID",
-				"type": "bytes32"
-			},
-			{
+				"indexed": false,
 				"name": "quantity",
 				"type": "uint256"
-			}
-		],
-		"name": "getPrice",
-		"outputs": [
+			},
 			{
-				"name": "",
+				"indexed": false,
+				"name": "value",
 				"type": "uint256"
+			},
+			{
+				"indexed": false,
+				"name": "buyer",
+				"type": "address"
 			}
 		],
-		"payable": false,
-		"stateMutability": "view",
-		"type": "function"
+		"name": "BuyProduct",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"name": "ID",
+				"type": "bytes32"
+			},
+			{
+				"indexed": false,
+				"name": "name",
+				"type": "string"
+			},
+			{
+				"indexed": false,
+				"name": "price",
+				"type": "uint256"
+			},
+			{
+				"indexed": false,
+				"name": "quantity",
+				"type": "uint256"
+			},
+			{
+				"indexed": false,
+				"name": "owner",
+				"type": "address"
+			}
+		],
+		"name": "NewProduct",
+		"type": "event"
 	},
 	{
 		"constant": false,
@@ -164,118 +174,108 @@
 		"type": "function"
 	},
 	{
-		"anonymous": false,
+		"constant": false,
 		"inputs": [
 			{
-				"indexed": true,
 				"name": "ID",
 				"type": "bytes32"
 			},
 			{
-				"indexed": false,
-				"name": "name",
+				"name": "newQuantity",
+				"type": "uint256"
+			}
+		],
+		"name": "update",
+		"outputs": [],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"constant": false,
+		"inputs": [],
+		"name": "withdrawalMoney",
+		"outputs": [],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [
+			{
+				"name": "ID",
+				"type": "bytes32"
+			},
+			{
+				"name": "quantity",
+				"type": "uint256"
+			}
+		],
+		"name": "getPrice",
+		"outputs": [
+			{
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [
+			{
+				"name": "ID",
+				"type": "bytes32"
+			}
+		],
+		"name": "getProduct",
+		"outputs": [
+			{
+				"name": "",
 				"type": "string"
 			},
 			{
-				"indexed": false,
-				"name": "price",
+				"name": "",
 				"type": "uint256"
 			},
 			{
-				"indexed": false,
-				"name": "quantity",
+				"name": "",
 				"type": "uint256"
-			},
-			{
-				"indexed": false,
-				"name": "owner",
-				"type": "address"
 			}
 		],
-		"name": "NewProduct",
-		"type": "event"
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
 	},
 	{
-		"anonymous": false,
-		"inputs": [
+		"constant": true,
+		"inputs": [],
+		"name": "getProducts",
+		"outputs": [
 			{
-				"indexed": true,
-				"name": "ID",
-				"type": "bytes32"
-			},
-			{
-				"indexed": false,
-				"name": "quantity",
-				"type": "uint256"
-			},
-			{
-				"indexed": false,
-				"name": "value",
-				"type": "uint256"
-			},
-			{
-				"indexed": false,
-				"name": "buyer",
-				"type": "address"
+				"name": "",
+				"type": "bytes32[]"
 			}
 		],
-		"name": "BuyProduct",
-		"type": "event"
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
 	},
 	{
-		"anonymous": false,
-		"inputs": [
+		"constant": true,
+		"inputs": [],
+		"name": "owner",
+		"outputs": [
 			{
-				"indexed": true,
-				"name": "ID",
-				"type": "bytes32"
-			},
-			{
-				"indexed": false,
-				"name": "NewProduct",
-				"type": "uint256"
-			},
-			{
-				"indexed": false,
-				"name": "owner",
+				"name": "",
 				"type": "address"
 			}
 		],
-		"name": "UpdateProduct",
-		"type": "event"
-	},
-	{
-		"anonymous": false,
-		"inputs": [
-			{
-				"indexed": true,
-				"name": "owner",
-				"type": "address"
-			},
-			{
-				"indexed": false,
-				"name": "amount",
-				"type": "uint256"
-			}
-		],
-		"name": "WithdrawalMoney",
-		"type": "event"
-	},
-	{
-		"anonymous": false,
-		"inputs": [
-			{
-				"indexed": true,
-				"name": "previousOwner",
-				"type": "address"
-			},
-			{
-				"indexed": true,
-				"name": "newOwner",
-				"type": "address"
-			}
-		],
-		"name": "OwnershipTransferred",
-		"type": "event"
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
 	}
 ]

@@ -1,15 +1,17 @@
 import React, { Component } from 'react';
-import { getWeb3, contractABI, contractAddress } from "../../api/remote"
+import { getWeb3, contractABI, contractAddress } from "../../api/remote";
 
 export default class AllProductsPage extends Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            web3: null
+            web3: null,
+            productsID: []
         }
 
         this.getProducts = this.getProducts.bind(this);
+        this.details = this.details.bind(this);
     }
 
     componentDidMount() {
@@ -25,59 +27,32 @@ export default class AllProductsPage extends Component {
     }
 
     getProducts() {
-        const cryotoCharityInstance = this.state.web3.eth.contract(contractABI).at(contractAddress);
+        const cryotoMarketplaceInstance = this.state.web3.eth.contract(contractABI).at(contractAddress);
 
-        cryotoCharityInstance.getProducts.call((err, res) => {
-            if(err){
+        cryotoMarketplaceInstance.getProducts.call((err, res) => {
+            if (err) {
                 console.log(err);
                 return;
             }
 
-            console.log(res);
+            this.setState({ productsID: res });
         })
 
     }
 
+    details(id) {
+        this.props.history.push('/product/' + id);
+    }
+
     render() {
+        console.log(this.state.productsID);
         return (
             <div className="container">
                 <h1>All Products Page</h1>
                 <section>
-                    <article>
-                        <h2>Kartofi</h2>
-                        <p>price: 5$</p>
-                    </article>
-                    <article>
-                        <h2>Kartofi</h2>
-                        <p>price: 5$</p>
-                    </article><article>
-                        <h2>Kartofi</h2>
-                        <p>price: 5$</p>
-                    </article><article>
-                        <h2>Kartofi</h2>
-                        <p>price: 5$</p>
-                    </article><article>
-                        <h2>Kartofi</h2>
-                        <p>price: 5$</p>
-                    </article><article>
-                        <h2>Kartofi</h2>
-                        <p>price: 5$</p>
-                    </article><article>
-                        <h2>Kartofi</h2>
-                        <p>price: 5$</p>
-                    </article><article>
-                        <h2>Kartofi</h2>
-                        <p>price: 5$</p>
-                    </article><article>
-                        <h2>Kartofi</h2>
-                        <p>price: 5$</p>
-                    </article><article>
-                        <h2>Kartofi</h2>
-                        <p>price: 5$</p>
-                    </article><article>
-                        <h2>Kartofi</h2>
-                        <p>price: 5$</p>
-                    </article>
+                    {this.state.productsID.map((value, index) => {
+                        return <article key={index} onClick={() => this.details(value)}>{value}</article>
+                    })}
                 </section>
             </div>
         );

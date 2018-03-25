@@ -23,7 +23,7 @@ const getWeb3 = new Promise(function (resolve, reject) {
       // Fallback to localhost if no web3 injection. We've configured this to
       // use the development console's port by default.
       //var provider = new Web3.providers.HttpProvider('https://ropsten.infura.io/metamask')
-      var provider = new Web3.providers.HttpProvider('http://127.0.0.1:7545/');
+      var provider = new Web3.providers.HttpProvider('http://127.0.0.1:8545/');
 
       web3 = new Web3(provider)
 
@@ -39,6 +39,6 @@ const getWeb3 = new Promise(function (resolve, reject) {
 });
 
 const contractABI = CryptoMarketplaceABI;
-const contractAddress = "0xf25186b5081ff5ce73482ad761db0eb0d25abfbf";
+const contractAddress = "0xddf74a3994cd70654c24951392d70cdcf4038630";
 
 export { getWeb3, contractABI, contractAddress };

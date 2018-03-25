@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Input from "../common/Input";
+import { getWeb3, contractABI, contractAddress } from "../../api/remote";
 
 export default class NewProductPage extends Component {
     constructor(props) {
@@ -8,14 +9,48 @@ export default class NewProductPage extends Component {
         this.state = {
             name: "",
             price: "",
-            quantity: ""
+            quantity: "",
+            web3: null
         }
 
         this.onChangeHandler = this.onChangeHandler.bind(this);
+        this.createProductHandler = this.createProductHandler.bind(this);
+    }
+
+    componentDidMount() {
+        getWeb3.then(results => {
+            this.setState({
+                web3: results.web3
+            })
+        
+
+        }).catch((err) => {
+            console.log(err);
+            console.log('Error finding web3.')
+        })
     }
 
     onChangeHandler(e) {
         this.setState({ [e.target.name]: e.target.value });
+    }
+
+    createProductHandler(e) {
+        e.preventDefault();
+
+        // TODO validate input
+
+        const cryotoMarketplaceInstance = this.state.web3.eth.contract(contractABI).at(contractAddress);
+
+        this.state.web3.eth.getAccounts((error, accounts) => {
+            cryotoMarketplaceInstance.newProduct(this.state.name, this.state.price, this.state.quantity, {from: accounts[0]}, (err, res) => {
+                if(err) {
+                    console.log(err);
+                    return;
+                }
+
+                console.log(res);
+            })
+        })
     }
 
     render() {
@@ -43,7 +78,7 @@ export default class NewProductPage extends Component {
                     type="number" />
 
 
-                <button>Create new produtc</button>
+                <button onClick={this.createProductHandler}>Create new produtc</button>
 
             </div>
         );
