@@ -11,19 +11,12 @@ import WithdrawalMoneyPage from './components/WithdrawalMoneyPage/WithdrawalMone
 class App extends Component {
     constructor(props) {
         super(props);
-
-        this.onLogout = this.onLogout.bind(this);
-    }
-
-    onLogout() {
-        localStorage.clear();
-        this.props.history.push('/');
     }
 
     render() {
         return (
             <div className="App">
-                <Header loggedIn={localStorage.getItem('authToken') != null} onLogout={this.onLogout} />
+                <Header />
                 <Switch>
                     <Route exact path="/" component={HomePage} />
                     <Route exact path="/products" component={AllProducts} />
