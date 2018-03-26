@@ -8,11 +8,14 @@ export default class ChangeOwnerPage extends Component {
 
         this.state = {
             address: "",
-            web3: null
+            web3: null,
+            owner: ""
         }
 
         this.onChangeHandler = this.onChangeHandler.bind(this);
         this.chageOwnerHandler = this.chageOwnerHandler.bind(this);
+        this.getOwner = this.getOwner.bind(this);
+        
     }
 
     componentDidMount() {
@@ -21,6 +24,7 @@ export default class ChangeOwnerPage extends Component {
                 web3: results.web3
             })
             
+            this.getOwner();
         }).catch((err) => {
             console.log(err);
             console.log('Error finding web3.')
@@ -30,6 +34,21 @@ export default class ChangeOwnerPage extends Component {
     onChangeHandler(e) {
         e.preventDefault();
         this.setState({ [e.target.name]: e.target.value });
+    }
+
+    getOwner() {
+        const cryotoMarketplaceInstance = this.state.web3.eth.contract(contractABI).at(contractAddress);
+
+        cryotoMarketplaceInstance.owner.call((err, res) => {
+            if(err) {
+                console.log(err);
+                return;
+            }
+
+            console.log(res);
+            this.setState({owner: res});
+
+        })
     }
 
     chageOwnerHandler(e){
@@ -51,13 +70,14 @@ export default class ChangeOwnerPage extends Component {
         return (
             <div className="container">
                 <h1>Change Owner</h1>
+                <p>current owner: {this.state.owner}</p>
                 <Input
                     name="address"
                     value={this.state.address}
                     onChange={this.onChangeHandler}
                     label="Address"
                     type="text" />
-                <button onChange={this.chageOwnerHandler}>Change owner</button>
+                <button onClick={this.chageOwnerHandler}>Change owner</button>
             </div>
         );
     }
