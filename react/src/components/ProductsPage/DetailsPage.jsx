@@ -15,13 +15,18 @@ export default class DetailsPage extends Component {
             productPrice: "",
             productQuantity: "",
             quantity: "",
-            newQuantity: ""
+            newQuantity: "",
+            currentAccount: "",
+            owner: " "
         }
 
         this.getProduct = this.getProduct.bind(this);
         this.buyHandler = this.buyHandler.bind(this);
         this.updateHandler = this.updateHandler.bind(this);
         this.onChangeHandler = this.onChangeHandler.bind(this);
+        this.getOwner = this.getOwner.bind(this);
+        this.getCurrnetAddress = this.getCurrnetAddress.bind(this);
+        this.isOwner = this.isOwner.bind(this);
     }
 
     componentDidMount() {
@@ -29,10 +34,32 @@ export default class DetailsPage extends Component {
             this.setState({
                 web3: results.web3
             })
+            this.getCurrnetAddress();
+            this.getOwner();
             this.getProduct();
         }).catch((err) => {
             console.log(err);
             console.log('Error finding web3.')
+        })
+    }
+
+    getCurrnetAddress() {
+        this.state.web3.eth.getAccounts((error, accounts) => {
+            this.setState({ currentAddress: accounts[0] })
+        })
+    }
+
+    getOwner() {
+        const cryotoMarketplaceInstance = this.state.web3.eth.contract(contractABI).at(contractAddress);
+        cryotoMarketplaceInstance.owner.call((err, res) => {
+            if (err) {
+                console.log(err);
+                return;
+            }
+
+            console.log(res);
+            this.setState({ owner: res });
+
         })
     }
 
@@ -66,7 +93,8 @@ export default class DetailsPage extends Component {
         const cryotoMarketplaceInstance = this.state.web3.eth.contract(contractABI).at(contractAddress);
 
         this.state.web3.eth.getAccounts((error, accounts) => {
-            cryotoMarketplaceInstance.buy(this.state.productId, this.state.quantity, { from: accounts[0], value: this.state.productPrice * this.state.quantity}, (err, res) => {
+
+            cryotoMarketplaceInstance.buy(this.state.productId, this.state.quantity, { from: accounts[0], value: this.state.productPrice * this.state.quantity }, (err, res) => {
                 if (err) {
                     console.log(err);
                     return;
@@ -79,13 +107,13 @@ export default class DetailsPage extends Component {
 
     updateHandler(e) {
         e.preventDefault();
-        
+
         // TODO validate input
 
         const cryotoMarketplaceInstance = this.state.web3.eth.contract(contractABI).at(contractAddress);
 
         this.state.web3.eth.getAccounts((error, accounts) => {
-            cryotoMarketplaceInstance.update(this.state.productId, this.state.newQuantity, { from: accounts[0]}, (err, res) => {
+            cryotoMarketplaceInstance.update(this.state.productId, this.state.newQuantity, { from: accounts[0] }, (err, res) => {
                 if (err) {
                     console.log(err);
                     return;
@@ -94,6 +122,10 @@ export default class DetailsPage extends Component {
                 console.log(res);
             })
         })
+    }
+
+    isOwner() {
+        return this.state.owner === this.state.currentAddress
     }
 
     render() {
@@ -110,13 +142,15 @@ export default class DetailsPage extends Component {
                         label="Quantity"
                         type="number" />
                     <button onClick={this.buyHandler}>Buy</button>
-                    <Input
-                        name="newQuantity"
-                        value={this.state.newQuantity}
-                        onChange={this.onChangeHandler}
-                        label="NewQuantity"
-                        type="number" />
-                    <button onClick={this.updateHandler}>Update</button>
+                    {this.isOwner() ? <div>
+                        <Input
+                            name="newQuantity"
+                            value={this.state.newQuantity}
+                            onChange={this.onChangeHandler}
+                            label="NewQuantity"
+                            type="number" />
+                        <button onClick={this.updateHandler}>Update</button>
+                    </div> : ""}
                 </article>
             </div>
         );
