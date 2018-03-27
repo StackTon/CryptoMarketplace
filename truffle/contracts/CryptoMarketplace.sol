@@ -82,11 +82,12 @@ contract CryptoMarketplace is Ownable {
     /// @author Alex Stanoev
     /// @notice add new product
     /// @dev create new product and then push it in the products mapping
+    /// @param newID of a product
     /// @param name of a product
     /// @param price of a product
     /// @param quantity of a product
-    /// @return ID of a product
-    function newProduct(string name, uint price, uint quantity) public onlyOwner returns(bytes32) {
+    /// @return newID of a product
+    function newProduct(bytes32 newID, string name, uint price, uint quantity) public onlyOwner returns(bytes32) {
         
         // check if name param is empty
         require(bytes(name).length > 0);
@@ -97,13 +98,10 @@ contract CryptoMarketplace is Ownable {
         // check if quantity is greter then zero
         require(quantity > 0);
         
-        // create newID for the current product
-        bytes32 newID = keccak256(name, ":", price, ":", quantity);
-        
         // check if there is product with this newID
         require(products[newID].price == 0);
         
-        // make and add new product to the products mapping ID => Product
+        // make and add new product to the products mapping newID => Product
         products[newID] = Product(name, price, quantity);
         
         // push then newID in the productIDs array
@@ -159,5 +157,12 @@ contract CryptoMarketplace is Ownable {
         
         // execute event WithdrawalMoney
         WithdrawalMoney(msg.sender, balance);
+    }
+	
+    
+    /// @author Alex Stanoev
+    /// @return contract balance
+	function getContractBalance() public view onlyOwner returns(uint) {
+        return this.balance;
     }
 }
