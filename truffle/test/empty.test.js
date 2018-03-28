@@ -14,11 +14,6 @@ contract('FundRaise', function ([owner, acc1, acc2, acc3, acc4, acc5, acc6, acc7
     beforeEach('setup contract for each test', async function () {
         cryptoMarketplace = await CryptoMarketplace.new()
     });
-
-    it('has an owner', async function () {
-        let contractOwner = await cryptoMarketplace.owner()
-        expect(contractOwner).to.equal(owner, "Owner of contract is not correct");
-    });
     
     describe("test with zero products", async () => {
         it("check if productIDs is empty", async () => {
