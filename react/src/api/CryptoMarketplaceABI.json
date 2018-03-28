@@ -38,6 +38,10 @@
 		"constant": false,
 		"inputs": [
 			{
+				"name": "newID",
+				"type": "bytes32"
+			},
+			{
 				"name": "name",
 				"type": "string"
 			},
@@ -94,6 +98,50 @@
 		"type": "function"
 	},
 	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"name": "ID",
+				"type": "bytes32"
+			},
+			{
+				"indexed": false,
+				"name": "quantity",
+				"type": "uint256"
+			},
+			{
+				"indexed": false,
+				"name": "value",
+				"type": "uint256"
+			},
+			{
+				"indexed": false,
+				"name": "buyer",
+				"type": "address"
+			}
+		],
+		"name": "BuyProduct",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"name": "owner",
+				"type": "address"
+			},
+			{
+				"indexed": false,
+				"name": "amount",
+				"type": "uint256"
+			}
+		],
+		"name": "WithdrawalMoney",
+		"type": "event"
+	},
+	{
 		"constant": false,
 		"inputs": [],
 		"name": "withdrawalMoney",
@@ -139,23 +187,6 @@
 		"inputs": [
 			{
 				"indexed": true,
-				"name": "owner",
-				"type": "address"
-			},
-			{
-				"indexed": false,
-				"name": "amount",
-				"type": "uint256"
-			}
-		],
-		"name": "WithdrawalMoney",
-		"type": "event"
-	},
-	{
-		"anonymous": false,
-		"inputs": [
-			{
-				"indexed": true,
 				"name": "ID",
 				"type": "bytes32"
 			},
@@ -171,33 +202,6 @@
 			}
 		],
 		"name": "UpdateProduct",
-		"type": "event"
-	},
-	{
-		"anonymous": false,
-		"inputs": [
-			{
-				"indexed": true,
-				"name": "ID",
-				"type": "bytes32"
-			},
-			{
-				"indexed": false,
-				"name": "quantity",
-				"type": "uint256"
-			},
-			{
-				"indexed": false,
-				"name": "value",
-				"type": "uint256"
-			},
-			{
-				"indexed": false,
-				"name": "buyer",
-				"type": "address"
-			}
-		],
-		"name": "BuyProduct",
 		"type": "event"
 	},
 	{
