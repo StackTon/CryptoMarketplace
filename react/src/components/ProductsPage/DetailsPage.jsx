@@ -17,7 +17,8 @@ export default class DetailsPage extends Component {
             quantity: "",
             newQuantity: "",
             currentAccount: "",
-            owner: " "
+            owner: " ",
+            coinbase: ""
         }
 
         this.getProduct = this.getProduct.bind(this);
@@ -34,6 +35,8 @@ export default class DetailsPage extends Component {
             this.setState({
                 web3: results.web3
             })
+            let coinbase = this.state.web3.eth.coinbase;
+            this.setState({ coinbase })
             this.getCurrnetAddress();
             this.getOwner();
             this.getProduct();
@@ -129,6 +132,20 @@ export default class DetailsPage extends Component {
     }
 
     render() {
+        if (this.state.web3 === null) {
+            return (
+                <div className="container">
+                    <h1>Please install metamask or check if it works correct</h1>
+                </div>
+            );
+        }
+        if (this.state.coinbase === null) {
+            return (
+                <div className="container">
+                    <h1>Please unlock your metamask</h1>
+                </div>
+            );
+        }
         return (
             <div className="container">
                 <article>

@@ -26,7 +26,8 @@ export default class AllProductsPage extends Component {
 
         this.state = {
             web3: null,
-            productsID: []
+            productsID: [],
+            coinbase: ""
         }
 
         this.getProducts = this.getProducts.bind(this);
@@ -38,7 +39,9 @@ export default class AllProductsPage extends Component {
             this.setState({
                 web3: results.web3
             })
-            this.getProducts();
+            let coinbase = this.state.web3.eth.coinbase;
+            this.setState({coinbase})
+            this.getProducts(); 
         }).catch((err) => {
             console.log(err);
             console.log('Error finding web3.')
@@ -63,7 +66,7 @@ export default class AllProductsPage extends Component {
                 let obj = {
                     id: id,
                     name: decryptID[0],
-                    price: decryptID[1] 
+                    price: decryptID[1]
                 }
 
                 productsID.push(obj);
@@ -79,14 +82,30 @@ export default class AllProductsPage extends Component {
     }
 
     render() {
+        if(this.state.web3 === null){
+            return (
+                <div className="container">
+                    <h1>Please install metamask or check if it works correct</h1>
+                </div>
+            );
+        }
+        if(this.state.coinbase === null){
+            return (
+                <div className="container">
+                    <h1>Please unlock your metamask</h1>
+                </div>
+            );
+        }
+
+
         return (
             <div className="container">
                 <h1>All Products Page</h1>
                 <section>
                     {this.state.productsID.map((obj, index) => {
                         return <article key={index} onClick={() => this.details(obj.id)}>
-                        <h2>{obj.name}</h2>
-                        <p>price: {obj.price}</p>
+                            <h2>{obj.name}</h2>
+                            <p>price: {obj.price}</p>
                         </article>
                     })}
                 </section>

@@ -8,24 +8,41 @@ export default class WithdrawalMoneyPage extends Component {
 
         this.state = {
             web3: null,
-            contractBalance: ""
+            contractBalance: "",
+            owner: " ",
+            coinbase: " "
         }
 
         this.withdrawal = this.withdrawal.bind(this);
         this.getContractBalance = this.getContractBalance.bind(this);
+        this.getOwner = this.getOwner.bind(this);
     }
 
     componentDidMount() {
         getWeb3.then(results => {
+            let coinbase = results.web3.eth.coinbase;
             this.setState({
-                web3: results.web3
+                web3: results.web3,
+                coinbase
             })
-
+            this.getOwner();
             this.getContractBalance();
-
         }).catch((err) => {
             console.log(err);
             console.log('Error finding web3.')
+        })
+    }
+
+
+    getOwner() {
+        const cryotoMarketplaceInstance = this.state.web3.eth.contract(contractABI).at(contractAddress);
+
+        cryotoMarketplaceInstance.owner.call((err, res) => {
+            if (err) {
+                console.log(err);
+                return;
+            }
+            this.setState({ owner: res });
         })
     }
 
@@ -62,6 +79,16 @@ export default class WithdrawalMoneyPage extends Component {
     }
 
     render() {
+        if (this.state.web3 === null) {
+            return (
+                <div className="container">
+                    <h1>Please install metamask or check if it works correct</h1>
+                </div>
+            );
+        }
+        if (this.state.coinbase !== this.state.owner && this.state.owner !== " " && this.state.coinbase !== " ") {
+            this.props.history.push('/');
+        }
         return (
             <div className="container">
                 <h1>Withdrawal Money</h1>

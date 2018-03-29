@@ -7,6 +7,7 @@ import DetailsPage from './components/ProductsPage/DetailsPage';
 import ChangeOwnerPage from './components/ChangeOwnerPage/ChangeOwnerPage';
 import NewProductPage from './components/NewProductPage/NewProductPage';
 import WithdrawalMoneyPage from './components/WithdrawalMoneyPage/WithdrawalMoneyPage';
+import { getWeb3, contractABI, contractAddress } from "./api/remote";
 
 class App extends Component {
     constructor(props) {
