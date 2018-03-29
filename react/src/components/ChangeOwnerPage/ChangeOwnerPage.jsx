@@ -48,14 +48,25 @@ export default class ChangeOwnerPage extends Component {
                 return;
             }
 
-            
+
             this.setState({ owner: res });
+            if (this.state.coinbase !== this.state.owner) {
+                this.props.history.push('/');
+            }
 
         })
     }
 
     chageOwnerHandler(e) {
-        console.log("here")
+
+        if (this.state.address.length !== 42) {
+            return;
+        }
+
+        if (!this.state.web3.isAddress(this.state.address)) {
+            return
+        }
+
         const cryotoMarketplaceInstance = this.state.web3.eth.contract(contractABI).at(contractAddress);
 
         this.state.web3.eth.getAccounts((error, accounts) => {
@@ -77,8 +88,12 @@ export default class ChangeOwnerPage extends Component {
                 </div>
             );
         }
-        if (this.state.coinbase !== this.state.owner && this.state.owner !== " " && this.state.coinbase !== " ") {
-            this.props.history.push('/');
+        if (this.state.coinbase !== this.state.owner) {
+            return (
+                <div className="container">
+                    <h1>You dont have permission to use this route</h1>
+                </div>
+            );
         }
         return (
             <div className="container">

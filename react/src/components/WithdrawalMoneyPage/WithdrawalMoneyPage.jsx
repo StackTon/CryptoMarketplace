@@ -43,6 +43,9 @@ export default class WithdrawalMoneyPage extends Component {
                 return;
             }
             this.setState({ owner: res });
+            if (this.state.coinbase !== this.state.owner) {
+                this.props.history.push('/');
+            }
         })
     }
 
@@ -86,8 +89,12 @@ export default class WithdrawalMoneyPage extends Component {
                 </div>
             );
         }
-        if (this.state.coinbase !== this.state.owner && this.state.owner !== " " && this.state.coinbase !== " ") {
-            this.props.history.push('/');
+        if (this.state.coinbase !== this.state.owner) {
+            return (
+                <div className="container">
+                    <h1>You dont have permission to use this route</h1>
+                </div>
+            );
         }
         return (
             <div className="container">

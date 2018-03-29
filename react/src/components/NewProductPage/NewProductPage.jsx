@@ -57,12 +57,15 @@ export default class NewProductPage extends Component {
     getOwner() {
         const cryotoMarketplaceInstance = this.state.web3.eth.contract(contractABI).at(contractAddress);
         cryotoMarketplaceInstance.owner.call((err, res) => {
-            if(err){
+            if (err) {
                 console.log(err);
                 return;
             }
 
-            this.setState({owner: res})
+            this.setState({ owner: res })
+            if (this.state.coinbase !== this.state.owner) {
+                this.props.history.push('/');
+            }
         })
     }
 
@@ -73,7 +76,20 @@ export default class NewProductPage extends Component {
     createProductHandler(e) {
         e.preventDefault();
 
-        // TODO validate input
+        if (this.state.name.length === 0) {
+            // TODO toastr
+            return;
+        }
+
+        if (this.state.price.length === 0 || this.state.price === 0) {
+            // TODO toastr
+            return;
+        }
+
+        if (this.state.quantity.length === 0 || this.state.quantity === 0) {
+            // TODO toastr
+            return;
+        }
 
         const cryotoMarketplaceInstance = this.state.web3.eth.contract(contractABI).at(contractAddress);
 
@@ -98,8 +114,12 @@ export default class NewProductPage extends Component {
                 </div>
             );
         }
-        if (this.state.coinbase !== this.state.owner && this.state.owner !== " "  && this.state.coinbase !== " ") {
-            this.props.history.push('/');
+        if (this.state.coinbase !== this.state.owner) {
+            return (
+                <div className="container">
+                    <h1>You dont have permission to use this route</h1>
+                </div>
+            );
         }
         return (
             <div className="container">
