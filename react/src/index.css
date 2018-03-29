@@ -9,6 +9,7 @@ body {
 header {
   background: #BCB3C6;
   padding: 25px 0;
+  border-bottom: 1px solid black;
 }
 
 header div {
@@ -20,17 +21,12 @@ header a {
   text-decoration: none;
   color: black;
   margin: 0 25px 0 0;
-  font-size: 18px
+  font-size: 20px
 }
 
 header a:hover {
   cursor: pointer;
   font-weight: 900;
-  
-  /*
-  color: #F2B3BF;
-  border-bottom: 2px solid #F2B3BF;
-  */
 }
 
 .App > div {
@@ -46,14 +42,38 @@ h1 {
 .App .home {
   width: 100%;
   background: url("./imgs/town-market-house.jpg");
-  height: 700px; 
-
-    /* Center and scale the image nicely */
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
-    margin: 0;
+  height: 686px; 
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  margin: 0;
 }
+
+.home p {
+  margin: 0;
+  padding: 15px 30px;
+  background: #F2DCE0;
+  font-size: 40px;
+  display: inline-block;
+  border-radius: 10px;
+  opacity: 0.7;
+  font-weight: 900;
+  position: relative;
+  border: 1px solid black;
+  
+}
+
+.first {
+  top: 83px;
+  right: -109px;
+}
+
+.home .second {
+  top: 214px;
+  right: 396px;
+  font-size: 30px;
+}
+
 
 .all-products {
   text-align: center;
@@ -69,6 +89,7 @@ h1 {
   margin: 30px 0;
   margin-right: 25px;
   border-radius: 10px;
+  border: 1px solid black;
 }
 
 .all-products article:hover {
@@ -78,18 +99,20 @@ h1 {
 }
 
 .details .product {
-  width: 50%;
+  width: 49.5%;
   background: #F2DCE0;
   display: inline-block;
   text-align: center;
   border-top-left-radius: 10px;
   border-bottom-left-radius: 10px;
   height: 230px;
-  padding-top: 70px
+  padding-top: 70px;
+  border: 1px solid black;
+  border-right: none;
 }
 
 .details .second {
-  width: 50%;
+  width: 49.5%;
   background: #D9D9D9;
   display: inline-block;
   text-align: center;
@@ -97,6 +120,7 @@ h1 {
   border-bottom-right-radius: 10px;
   height: 300px;
   vertical-align: top;
+  border: 1px solid black;
 }
 
 .details .second .details-input {
@@ -117,29 +141,30 @@ h1 {
   background: #F2DCE0;
   padding: 5px 10px;
   border-radius: 10px;
-  border: 2px solid black;
+  border: 1px solid black;
   margin-top: 20px;
   font-size: 16px
 }
 
 .button:hover {
-  background: #BCB3C6;
+  background: #F2B3BF;
   border-color: black;
   cursor: pointer;
 }
 
 form {
   width: 50%;
-  background: #D9D9D9;
+  background: #F2F2F2;
   margin: auto;
   padding: 30px;
   border-radius: 10px;
+  border: 1px solid black;
 }
 
 input {
   width: 100%;
   padding: 5px;
   border-radius: 10px;
-  border: 1px solid #BCB3C6;
+  border: 1px solid black;
   margin-bottom: 20px;
 }

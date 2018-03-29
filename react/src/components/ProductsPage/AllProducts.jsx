@@ -100,12 +100,12 @@ export default class AllProductsPage extends Component {
 
         return (
             <div className="all-products">
-                <h1>All Products Page</h1>
+                <h1>All Products</h1>
                 <section>
                     {this.state.productsID.map((obj, index) => {
                         return <article key={index} onClick={() => this.details(obj.id)}>
                             <h2>{obj.name}</h2>
-                            <p>price: {obj.price}</p>
+                            <p>price: <strong>{obj.price}</strong> wai</p>
                         </article>
                     })}
                 </section>

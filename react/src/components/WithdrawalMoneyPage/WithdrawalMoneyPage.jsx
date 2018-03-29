@@ -100,7 +100,7 @@ export default class WithdrawalMoneyPage extends Component {
             <div className="withdrawal">
                 <form>
                     <h1>Withdrawal Money</h1>
-                    <p>contract balance: {this.state.contractBalance}</p>
+                    <p>contract balance: <strong>{this.state.contractBalance} wai</strong></p>
                     <button className="button" onClick={this.withdrawal}>Withdrawal</button>
                 </form>
             </div>

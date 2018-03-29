@@ -91,7 +91,16 @@ export default class DetailsPage extends Component {
     buyHandler(e) {
         e.preventDefault();
 
-        // TODO validate input
+        if(this.state.quantity.length === 0){
+            return;
+        }
+
+        if(this.state.quantity === 0){
+            return;
+        }
+
+        
+
 
         const cryotoMarketplaceInstance = this.state.web3.eth.contract(contractABI).at(contractAddress);
 
@@ -111,7 +120,13 @@ export default class DetailsPage extends Component {
     updateHandler(e) {
         e.preventDefault();
 
-        // TODO validate input
+        if(this.state.newQuantity.length === 0){
+            return;
+        }
+
+        if(this.state.newQuantity === 0){
+            return;
+        }
 
         const cryotoMarketplaceInstance = this.state.web3.eth.contract(contractABI).at(contractAddress);
 
@@ -150,9 +165,9 @@ export default class DetailsPage extends Component {
             <div className="details">
                 <article>
                     <div className="product">
-                        <h1>{this.state.productName}</h1>
-                        <p>Price: {this.state.productPrice} wai</p>
-                        <p>Quantity: {this.state.productQuantity}</p>
+                        <h1>Name: {this.state.productName}</h1>
+                        <p>Price: <strong>{this.state.productPrice}</strong> wai</p>
+                        <p>Quantity: <strong>{this.state.productQuantity}</strong></p>
                     </div>
                     <div className="second">
                         <div className="details-input">
