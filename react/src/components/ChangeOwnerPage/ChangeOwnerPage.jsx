@@ -83,29 +83,31 @@ export default class ChangeOwnerPage extends Component {
     render() {
         if (this.state.web3 === null) {
             return (
-                <div className="container">
+                <div className="no-metatask">
                     <h1>Please install metamask or check if it works correct</h1>
                 </div>
             );
         }
         if (this.state.coinbase !== this.state.owner) {
             return (
-                <div className="container">
+                <div className="not-owner">
                     <h1>You dont have permission to use this route</h1>
                 </div>
             );
         }
         return (
-            <div className="container">
-                <h1>Change Owner</h1>
-                <p>current owner: {this.state.owner}</p>
-                <Input
-                    name="address"
-                    value={this.state.address}
-                    onChange={this.onChangeHandler}
-                    label="Address"
-                    type="text" />
-                <button onClick={this.chageOwnerHandler}>Change owner</button>
+            <div className="change-owner">
+                <form>
+                    <h1>Change Owner</h1>
+                    <p>current owner: {this.state.owner}</p>
+                    <Input
+                        name="address"
+                        value={this.state.address}
+                        onChange={this.onChangeHandler}
+                        label="Address"
+                        type="text" />
+                    <button className="button" onClick={this.chageOwnerHandler}>Change owner</button>
+                </form>
             </div>
         );
     }

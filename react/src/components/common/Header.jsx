@@ -54,18 +54,20 @@ export default class Header extends Component {
         })
     }
 
-    isOwner(){
+    isOwner() {
         return this.state.owner === this.state.currentAddress
     }
 
     render() {
         return (
             <header>
-                <NavLink exact to="/" activeClassName="active">Home</NavLink>
-                <NavLink exact to="/products" activeClassName="active">All Products</NavLink>
-                {this.isOwner() ? <NavLink exact to="/new" activeClassName="active">New product</NavLink> : ""}
-                {this.isOwner() ? <NavLink exact to="/chage-owner" activeClassName="active">Chage Owner</NavLink> : ""}
-                {this.isOwner() ? <NavLink exact to="/withdrawal" activeClassName="active">Withdrawal</NavLink> : ""} 
+                <div>
+                    <NavLink exact to="/" activeClassName="active">Home</NavLink>
+                    <NavLink exact to="/products" activeClassName="active">All Products</NavLink>
+                    {this.isOwner() ? <NavLink exact to="/new" activeClassName="active">New product</NavLink> : ""}
+                    {this.isOwner() ? <NavLink exact to="/chage-owner" activeClassName="active">Chage Owner</NavLink> : ""}
+                    {this.isOwner() ? <NavLink exact to="/withdrawal" activeClassName="active">Withdrawal</NavLink> : ""}
+                </div>
             </header>
         );
     }

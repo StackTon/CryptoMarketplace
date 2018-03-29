@@ -84,14 +84,14 @@ export default class AllProductsPage extends Component {
     render() {
         if(this.state.web3 === null){
             return (
-                <div className="container">
+                <div className="no-metatask">
                     <h1>Please install metamask or check if it works correct</h1>
                 </div>
             );
         }
         if(this.state.coinbase === null){
             return (
-                <div className="container">
+                <div className="no-metatask">
                     <h1>Please unlock your metamask</h1>
                 </div>
             );
@@ -99,7 +99,7 @@ export default class AllProductsPage extends Component {
 
 
         return (
-            <div className="container">
+            <div className="all-products">
                 <h1>All Products Page</h1>
                 <section>
                     {this.state.productsID.map((obj, index) => {

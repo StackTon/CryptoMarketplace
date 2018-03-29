@@ -109,43 +109,45 @@ export default class NewProductPage extends Component {
     render() {
         if (this.state.web3 === null) {
             return (
-                <div className="container">
+                <div className="no-metatask">
                     <h1>Please install metamask or check if it works correct</h1>
                 </div>
             );
         }
         if (this.state.coinbase !== this.state.owner) {
             return (
-                <div className="container">
+                <div className="not-owner">
                     <h1>You dont have permission to use this route</h1>
                 </div>
             );
         }
         return (
-            <div className="container">
-                <h1>New Product</h1>
+            <div className="new">
+                <form action="">
+                    <h1>New Product</h1>
 
-                <Input
-                    name="name"
-                    value={this.state.name}
-                    onChange={this.onChangeHandler}
-                    label="Name"
-                    type="text" />
-                <Input
-                    name="price"
-                    value={this.state.price}
-                    onChange={this.onChangeHandler}
-                    label="Price"
-                    type="number" />
-                <Input
-                    name="quantity"
-                    value={this.state.quantity}
-                    onChange={this.onChangeHandler}
-                    label="Quantity"
-                    type="number" />
+                    <Input
+                        name="name"
+                        value={this.state.name}
+                        onChange={this.onChangeHandler}
+                        label="Name"
+                        type="text" />
+                    <Input
+                        name="price"
+                        value={this.state.price}
+                        onChange={this.onChangeHandler}
+                        label="Price"
+                        type="number" />
+                    <Input
+                        name="quantity"
+                        value={this.state.quantity}
+                        onChange={this.onChangeHandler}
+                        label="Quantity"
+                        type="number" />
 
 
-                <button onClick={this.createProductHandler}>Create new produtc</button>
+                    <button className="button" onClick={this.createProductHandler}>Create new produtc</button>
+                </form>
 
             </div>
         );

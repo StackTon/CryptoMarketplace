@@ -134,40 +134,48 @@ export default class DetailsPage extends Component {
     render() {
         if (this.state.web3 === null) {
             return (
-                <div className="container">
+                <div className="no-metatask">
                     <h1>Please install metamask or check if it works correct</h1>
                 </div>
             );
         }
         if (this.state.coinbase === null) {
             return (
-                <div className="container">
+                <div className="no-metatask">
                     <h1>Please unlock your metamask</h1>
                 </div>
             );
         }
         return (
-            <div className="container">
+            <div className="details">
                 <article>
-                    <h1>{this.state.productName}</h1>
-                    <p>Price: {this.state.productPrice} wai</p>
-                    <p>Quantity: {this.state.productQuantity}</p>
-                    <Input
-                        name="quantity"
-                        value={this.state.quantity}
-                        onChange={this.onChangeHandler}
-                        label="Quantity"
-                        type="number" />
-                    <button onClick={this.buyHandler}>Buy</button>
-                    {this.isOwner() ? <div>
-                        <Input
-                            name="newQuantity"
-                            value={this.state.newQuantity}
-                            onChange={this.onChangeHandler}
-                            label="NewQuantity"
-                            type="number" />
-                        <button onClick={this.updateHandler}>Update</button>
-                    </div> : ""}
+                    <div className="product">
+                        <h1>{this.state.productName}</h1>
+                        <p>Price: {this.state.productPrice} wai</p>
+                        <p>Quantity: {this.state.productQuantity}</p>
+                    </div>
+                    <div className="second">
+                        <div className="details-input">
+                        <h2>Buy product</h2>
+                            <Input
+                                name="quantity"
+                                value={this.state.quantity}
+                                onChange={this.onChangeHandler}
+                                label="Quantity"
+                                type="number" />
+                            <button className="button" onClick={this.buyHandler}>Buy</button>
+                        </div>
+                        {this.isOwner() ? <div className="details-input">
+                        <h2>Update quantity</h2>
+                            <Input
+                                name="newQuantity"
+                                value={this.state.newQuantity}
+                                onChange={this.onChangeHandler}
+                                label="NewQuantity"
+                                type="number" />
+                            <button className="button" onClick={this.updateHandler}>Update</button>
+                        </div> : ""}
+                    </div>
                 </article>
             </div>
         );

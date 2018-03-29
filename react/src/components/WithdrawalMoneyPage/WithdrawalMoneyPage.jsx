@@ -53,13 +53,13 @@ export default class WithdrawalMoneyPage extends Component {
         const cryotoMarketplaceInstance = this.state.web3.eth.contract(contractABI).at(contractAddress);
 
         this.state.web3.eth.getAccounts((error, accounts) => {
-            cryotoMarketplaceInstance.getContractBalance.call({from: accounts[0]}, (err, res) => {
-                if(err){
+            cryotoMarketplaceInstance.getContractBalance.call({ from: accounts[0] }, (err, res) => {
+                if (err) {
                     console.log(err);
                     return;
                 }
 
-                this.setState({contractBalance: res.toString()});
+                this.setState({ contractBalance: res.toString() });
                 console.log(res.toString());
             })
 
@@ -84,23 +84,25 @@ export default class WithdrawalMoneyPage extends Component {
     render() {
         if (this.state.web3 === null) {
             return (
-                <div className="container">
+                <div className="no-metatask">
                     <h1>Please install metamask or check if it works correct</h1>
                 </div>
             );
         }
         if (this.state.coinbase !== this.state.owner) {
             return (
-                <div className="container">
+                <div className="not-owner">
                     <h1>You dont have permission to use this route</h1>
                 </div>
             );
         }
         return (
-            <div className="container">
-                <h1>Withdrawal Money</h1>
-                <p>contract balance: {this.state.contractBalance}</p>
-                <button onClick={this.withdrawal}>Withdrawal</button>
+            <div className="withdrawal">
+                <form>
+                    <h1>Withdrawal Money</h1>
+                    <p>contract balance: {this.state.contractBalance}</p>
+                    <button className="button" onClick={this.withdrawal}>Withdrawal</button>
+                </form>
             </div>
         );
     }
