@@ -1,5 +1,4 @@
 const CryptoMarketplace = artifacts.require("CryptoMarketplace");
-const keccak256 = require('js-sha3').keccak256;
 const expect = require('chai').expect;
 const BigNumber = web3.BigNumber;
 const crypto = require('crypto'),
@@ -233,7 +232,7 @@ contract('FundRaise', function ([owner, acc1, acc2, acc3, acc4, acc5, acc6, acc7
             it("try to buy with wrong id", async () => {
                 const ID = encrypt("Bob:" + '2.00');
                 await cryptoMarketplace.newProduct(ID, "Bob", web3.toWei('2', 'ether'), 10);
-                await cryptoMarketplace.buy(keccak256("Bob", 2, 10), 2, { from: owner, value: web3.toWei(4, "ether") }).should.be.rejectedWith("revert");
+                await cryptoMarketplace.buy(encrypt("Bobb"), 2, { from: owner, value: web3.toWei(4, "ether") }).should.be.rejectedWith("revert");
             })
         })
 

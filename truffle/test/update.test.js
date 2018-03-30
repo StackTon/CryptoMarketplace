@@ -1,5 +1,4 @@
 const CryptoMarketplace = artifacts.require("CryptoMarketplace");
-const keccak256 = require('js-sha3').keccak256;
 const expect = require('chai').expect;
 
 const BigNumber = web3.BigNumber;
@@ -145,7 +144,7 @@ contract('FundRaise', function ([owner, acc1, acc2, acc3, acc4, acc5, acc6, acc7
             it("add one product and try to update with wrong ID", async () => {
                 const ID = encrypt("TV:" + "499.00");
                 await cryptoMarketplace.newProduct(ID, "TV", web3.toWei('499', 'ether'), 2);
-                let wrongID = keccak256("TV", 499, 2);
+                let wrongID = encrypt("TV");
                 await cryptoMarketplace.update(wrongID, 5).should.be.rejectedWith("revert");
             });
 
