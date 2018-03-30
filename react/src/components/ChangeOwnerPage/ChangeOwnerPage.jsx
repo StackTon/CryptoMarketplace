@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Input from "../common/Input";
 import { getWeb3, contractABI, contractAddress } from "../../api/remote";
+import toastr from 'toastr';
 
 export default class ChangeOwnerPage extends Component {
     constructor(props) {
@@ -58,13 +59,16 @@ export default class ChangeOwnerPage extends Component {
     }
 
     chageOwnerHandler(e) {
+        e.preventDefault()
 
         if (this.state.address.length !== 42) {
+            toastr.error("Address must be at least 42 chars long!");
             return;
         }
 
         if (!this.state.web3.isAddress(this.state.address)) {
-            return
+            toastr.error("Address is not correct!");
+            return;
         }
 
         const cryotoMarketplaceInstance = this.state.web3.eth.contract(contractABI).at(contractAddress);
@@ -73,8 +77,10 @@ export default class ChangeOwnerPage extends Component {
             cryotoMarketplaceInstance.transferOwnership(this.state.address, { from: accounts[0] }, (err, res) => {
                 if (err) {
                     console.log(err);
+                    toastr.error("There was an error with transfering ownership!");
                     return;
                 }
+                toastr.success("Transfer ownership was successful!")
                 console.log(res);
             })
         })

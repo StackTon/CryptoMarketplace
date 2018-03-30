@@ -49,6 +49,7 @@ export default class AllProductsPage extends Component {
     }
 
     getProducts() {
+        
         const cryotoMarketplaceInstance = this.state.web3.eth.contract(contractABI).at(contractAddress);
 
         cryotoMarketplaceInstance.getProducts.call((err, res) => {
@@ -56,6 +57,7 @@ export default class AllProductsPage extends Component {
                 console.log(err);
                 return;
             }
+            
             let productsID = [];
 
             for (let id of res) {
@@ -98,14 +100,23 @@ export default class AllProductsPage extends Component {
         }
 
 
+        
         return (
             <div className="all-products">
                 <h1>All Products</h1>
                 <section>
                     {this.state.productsID.map((obj, index) => {
+                        let priceInUsd = obj.price * 377;
+                        let priceInBgn = priceInUsd * 1.58;
+                        
+                        priceInUsd = priceInUsd.toString().substring(0, 4);
+                        priceInBgn = priceInBgn.toString().substring(0, 4);
+
                         return <article key={index} onClick={() => this.details(obj.id)}>
                             <h2>{obj.name}</h2>
-                            <p>price: <strong>{obj.price}</strong> wai</p>
+                            <p>Price in ethers: <strong>{obj.price}</strong></p>
+                            <p>Price in usd: <strong>{priceInUsd}</strong></p>
+                            <p>Price in bgn: <strong>{priceInBgn}</strong></p>
                         </article>
                     })}
                 </section>

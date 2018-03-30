@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { getWeb3, contractABI, contractAddress } from "../../api/remote";
 import Input from "../common/Input";
+import toastr from 'toastr';
 
 export default class DetailsPage extends Component {
     constructor(props) {
@@ -91,15 +92,20 @@ export default class DetailsPage extends Component {
     buyHandler(e) {
         e.preventDefault();
 
-        if(this.state.quantity.length === 0){
+        if (this.state.quantity.length === 0) {
+            toastr.error("Quantity is not written!")
             return;
         }
 
-        if(this.state.quantity === 0){
+        if (this.state.quantity == 0) {
+            toastr.error("Quantity must be more then zero!");
             return;
         }
 
-        
+        if (this.state.quantity > this.state.productQuantity) {
+            toastr.error("Quantity can't be more then product quantity!");
+            return;
+        }
 
 
         const cryotoMarketplaceInstance = this.state.web3.eth.contract(contractABI).at(contractAddress);
@@ -109,9 +115,11 @@ export default class DetailsPage extends Component {
             cryotoMarketplaceInstance.buy(this.state.productId, this.state.quantity, { from: accounts[0], value: this.state.productPrice * this.state.quantity }, (err, res) => {
                 if (err) {
                     console.log(err);
+                    toastr.error("There was an error with buying product!");
                     return;
                 }
 
+                toastr.success("Buying product was successfully!");
                 console.log(res);
             })
         })
@@ -120,11 +128,8 @@ export default class DetailsPage extends Component {
     updateHandler(e) {
         e.preventDefault();
 
-        if(this.state.newQuantity.length === 0){
-            return;
-        }
-
-        if(this.state.newQuantity === 0){
+        if (this.state.newQuantity.length === 0) {
+            toastr.error("Quantity is not written!")
             return;
         }
 
@@ -134,9 +139,11 @@ export default class DetailsPage extends Component {
             cryotoMarketplaceInstance.update(this.state.productId, this.state.newQuantity, { from: accounts[0] }, (err, res) => {
                 if (err) {
                     console.log(err);
+                    toastr.error("There was an error with update product quantity!");
                     return;
                 }
 
+                toastr.success("Updateing product was successfully!");
                 console.log(res);
             })
         })
@@ -161,17 +168,27 @@ export default class DetailsPage extends Component {
                 </div>
             );
         }
+
+        let price = this.state.web3.fromWei(this.state.productPrice, "ether").toString()
+
+        let priceInUsd = price * 377;
+        let priceInBgn = priceInUsd * 1.58;
+
+        priceInUsd = priceInUsd.toString().substring(0, 4);
+        priceInBgn = priceInBgn.toString().substring(0, 4);
         return (
             <div className="details">
                 <article>
                     <div className="product">
                         <h1>Name: {this.state.productName}</h1>
-                        <p>Price: <strong>{this.state.productPrice}</strong> wai</p>
+                        <p>Price in ethers: <strong>{price}</strong></p>
+                        <p>Price in usd: <strong>{priceInUsd}</strong></p>
+                        <p>Price in bgn: <strong>{priceInBgn}</strong></p>
                         <p>Quantity: <strong>{this.state.productQuantity}</strong></p>
                     </div>
                     <div className="second">
                         <div className="details-input">
-                        <h2>Buy product</h2>
+                            <h2>Buy product</h2>
                             <Input
                                 name="quantity"
                                 value={this.state.quantity}
@@ -181,7 +198,7 @@ export default class DetailsPage extends Component {
                             <button className="button" onClick={this.buyHandler}>Buy</button>
                         </div>
                         {this.isOwner() ? <div className="details-input">
-                        <h2>Update quantity</h2>
+                            <h2>Update quantity</h2>
                             <Input
                                 name="newQuantity"
                                 value={this.state.newQuantity}

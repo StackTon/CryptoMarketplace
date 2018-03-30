@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Input from "../common/Input";
 import { getWeb3, contractABI, contractAddress } from "../../api/remote";
+import toastr from 'toastr';
 
 export default class WithdrawalMoneyPage extends Component {
     constructor(props) {
@@ -68,14 +69,22 @@ export default class WithdrawalMoneyPage extends Component {
 
     withdrawal(e) {
         e.preventDefault();
+
+        if(this.state.contractBalance === 0) {
+            toastr.error("Contract balance must be more then zero to withdrawal!");
+            return;
+        }
+
         const cryotoMarketplaceInstance = this.state.web3.eth.contract(contractABI).at(contractAddress);
 
         this.state.web3.eth.getAccounts((error, accounts) => {
             cryotoMarketplaceInstance.withdrawalMoney({ from: accounts[0] }, (err, res) => {
                 if (err) {
                     console.log(err);
+                    toastr.error("There was an error with withdrawal!");
                     return;
                 }
+                toastr.success("The withdrawal was successful!")
                 console.log(res);
             })
         })

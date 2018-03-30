@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Input from "../common/Input";
 import { getWeb3, contractABI, contractAddress } from "../../api/remote";
+import toastr from 'toastr';
 
 const crypto = require('crypto'),
     algorithm = 'aes-256-ctr',
@@ -77,31 +78,52 @@ export default class NewProductPage extends Component {
         e.preventDefault();
 
         if (this.state.name.length === 0) {
-            // TODO toastr
+            toastr.error("Name must at leat one char long!")
             return;
         }
 
-        if (this.state.price.length === 0 || this.state.price === 0) {
-            // TODO toastr
+        if (this.state.name.length > 9) {
+            toastr.error("Name mustn't be more then 9 char long!")
             return;
         }
 
-        if (this.state.quantity.length === 0 || this.state.quantity === 0) {
-            // TODO toastr
+        if (this.state.price < 100000000000000) {
+            toastr.error("Price must be above then 100000000000000!")
             return;
         }
+
+        if (this.state.price > 10000000000000000000000) {
+            toastr.error("Price must be below 10000000000000000000000!")
+            return;
+        }
+
+        if (this.state.quantity.length === 0) {
+            toastr.error("Quantity is not written!");
+            return;
+        }
+
+        if (this.state.quantity == 0) {
+            toastr.error("Quantity must be more then zero!");
+            return;
+        }
+
+        
 
         const cryotoMarketplaceInstance = this.state.web3.eth.contract(contractABI).at(contractAddress);
 
-        const ID = encrypt(this.state.name + ":" + this.state.price);
+        let priceInEth = this.state.web3.fromWei(this.state.price, "ether").toString();
+
+        const ID = encrypt(this.state.name + ":" + priceInEth);
         this.state.web3.eth.getAccounts((error, accounts) => {
             cryotoMarketplaceInstance.newProduct(ID, this.state.name, this.state.price, this.state.quantity, { from: accounts[0] }, (err, res) => {
                 if (err) {
                     console.log(err);
+                    toastr.error("There was an error with creating the product!");
                     return;
                 }
 
                 console.log(res);
+                toastr.success("Product was created successfully!")
             })
         })
     }
@@ -121,6 +143,8 @@ export default class NewProductPage extends Component {
                 </div>
             );
         }
+
+        
         return (
             <div className="new">
                 <form action="">

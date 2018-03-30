@@ -39,6 +39,6 @@ const getWeb3 = new Promise(function (resolve, reject) {
 });
 
 const contractABI = CryptoMarketplaceABI;
-const contractAddress = "0x81502324aa8e46300fe159263aad7ecca8a06c91";
+const contractAddress = "0xe78a0f7e598cc8b0bb87894b0f60dd2a88d6a8ab";
 
 export { getWeb3, contractABI, contractAddress };
