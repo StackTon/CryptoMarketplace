@@ -109,7 +109,7 @@ export default class WithdrawalMoneyPage extends Component {
             <div className="withdrawal">
                 <form>
                     <h1>Withdrawal Money</h1>
-                    <p>contract balance: <strong>{this.state.contractBalance} wai</strong></p>
+                    <p>Contract balance: <strong>{this.state.web3.fromWei(this.state.contractBalance, 'ether')} ethers</strong></p>
                     <button className="button" onClick={this.withdrawal}>Withdrawal</button>
                 </form>
             </div>

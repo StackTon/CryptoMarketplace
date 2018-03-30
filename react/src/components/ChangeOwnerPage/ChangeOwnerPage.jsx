@@ -105,7 +105,7 @@ export default class ChangeOwnerPage extends Component {
             <div className="change-owner">
                 <form>
                     <h1>Change Owner</h1>
-                    <p>current owner: <strong>{this.state.owner}</strong></p>
+                    <p>Current owner: <strong>{this.state.owner}</strong></p>
                     <Input
                         name="address"
                         value={this.state.address}
