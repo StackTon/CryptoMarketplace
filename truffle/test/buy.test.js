@@ -51,8 +51,6 @@ contract('FundRaise', function ([owner, acc1, acc2, acc3, acc4, acc5, acc6, acc7
                 expect(product).to.have.all.members(expectArr, "quantity after buy should be 1 insted it's " + product[2]);
             })
 
-
-
             it("try to buy two times a product", async () => {
                 const ID = encrypt("Domati:" + '2.00');
                 await cryptoMarketplace.newProduct(ID, "Domati", web3.toWei('2', 'ether'), 4);

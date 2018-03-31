@@ -1,4 +1,4 @@
-pragma solidity ^0.4.18;
+pragma solidity ^0.4.21;
 
 import "./Ownable.sol";
 import "./SafeMath.sol";
@@ -59,7 +59,7 @@ contract CryptoMarketplace is Ownable {
         products[ID].quantity = products[ID].quantity.sub(quantity);
         
         // execute BuyProduct event
-        BuyProduct(ID, quantity, totalPrice, msg.sender);
+        emit BuyProduct(ID, quantity, totalPrice, msg.sender);
     }
     
     /// @author Alex Stanoev
@@ -76,7 +76,7 @@ contract CryptoMarketplace is Ownable {
         products[ID].quantity = newQuantity;
         
         // execute event UpdateProduct
-        UpdateProduct(ID, newQuantity, msg.sender);
+        emit UpdateProduct(ID, newQuantity, msg.sender);
     }
     
     /// @author Alex Stanoev
@@ -108,7 +108,7 @@ contract CryptoMarketplace is Ownable {
         productIDs.push(newID);
         
         // execute event NewProduct
-        NewProduct(newID, name, price, quantity, owner);
+        emit NewProduct(newID, name, price, quantity, owner);
         
         return newID;
     }
@@ -145,9 +145,12 @@ contract CryptoMarketplace is Ownable {
     /// @author Alex Stanoev
     /// @notice withdrawal all contract money to owner
     function withdrawalMoney() public onlyOwner {
+
+        // initialize variable myAddress - hold contract address
+        address myAddress = this;
         
         // declarete balance variable that will hold contract balance
-        uint balance = this.balance;
+        uint balance = myAddress.balance;
         
         // check if balance is more then zero
         require(balance > 0);
@@ -156,12 +159,17 @@ contract CryptoMarketplace is Ownable {
         owner.transfer(balance);
         
         // execute event WithdrawalMoney
-        WithdrawalMoney(msg.sender, balance);
+        emit WithdrawalMoney(msg.sender, balance);
     }
 	
 	/// @author Alex Stanoev
     /// @return contract balance
 	function getContractBalance() public view onlyOwner returns(uint) {
-        return this.balance;
+
+        // initialize variable myAddress - hold contract address
+        address myAddress = this;
+
+        // return contract balance
+        return myAddress.balance;
     }
 }
